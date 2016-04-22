@@ -9,8 +9,9 @@ import stat
 
 def main():
     from_path = os.path.expanduser("~/")
-    filestat_file = os.path.join(os.path.dirname(__file__), 'filestat.lst')
-    dirstat_file = os.path.join(os.path.dirname(__file__), 'dirstat.lst')
+    filestat_file = os.path.join(os.path.dirname(__file__), '../data/filestat.lst')
+    dirstat_file = os.path.join(os.path.dirname(__file__), '../data/dirstat.lst')
+    json_file = os.path.join(os.path.dirname(__file__), '../data/data.json')
 
     #scan_file_stat(from_path, stat_file)
     dir2size = calc_dir_stat(filestat_file, dirstat_file)
@@ -26,7 +27,7 @@ def main():
 
     j = to_json(node.name2childs.values())
     print j
-    f = open('data.json', 'w')
+    f = open(json_file, 'w')
     data = json.dumps(j, indent=4)
     f.write(data)
     f.close()

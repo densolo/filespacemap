@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import stat
+import types
 
 #sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,13 +25,18 @@ def main():
     node = root.find_node(from_path)
     rects = square_node(node, 0., 0., 700., 400.)
     print 'rects', rects
+    write_d3_rect_json(json_file, rects)
 
+
+def write_d3_rect_json(json_file, rects):
+    data = json.dumps(rects, indent=4)
+    write_all(json_file, data)
+
+
+def write_d3_treemap_json(json_file, node):
     j = to_json(node.name2childs.values())
-    print j
-    f = open(json_file, 'w')
     data = json.dumps(j, indent=4)
-    f.write(data)
-    f.close()
+    write_all(json_file, data)
 
 
 def to_json(nodes):
@@ -43,6 +49,25 @@ def to_json(nodes):
             } for c in nodes
         ]
     }
+
+
+def write_dict(path, dct):
+    def __iter():
+        for key, val in sorted(dct.iteritems()):
+            yield "%s: %s\n" % (key, val)
+    write_all(path, __iter())
+
+
+def write_all(path, data, mode='w'):
+    f = open(path, mode)
+    try:
+        if isinstance(data, (list, types.GeneratorType)):
+            for chunk in data:
+                f.write(chunk)
+        else:
+            f.write(data)
+    finally:
+        f.close()
 
 
 def square_node(node, x, y, width, height):
@@ -97,7 +122,6 @@ class Node:
         return node
 
 
-
 def scan_file_stat(from_path, stat_file):
     f = open(stat_file, 'w')
     try:
@@ -130,15 +154,9 @@ def calc_dir_stat(filestat_file, dirstat_file):
                 dir2size[dirpath] = size
             dirpath = dirpath.rpartition("/")[0]
 
-    f = open(dirstat_file, 'w')
-    try:
-        for dirpath, size in sorted(dir2size.iteritems()):
-            f.write("%s: %s\n" % (dirpath, size))
-    finally:
-        f.close()
+    write_dict(dirstat_file, dir2size)
 
     return dir2size
-
 
 
 def iter_size(from_path):
@@ -148,7 +166,6 @@ def iter_size(from_path):
             st = os.lstat(path)
             if not stat.S_ISLNK(st.st_mode):
                 yield path, st.st_size
-
 
 
 # Squarified Treemap Layout

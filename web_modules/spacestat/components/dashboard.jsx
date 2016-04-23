@@ -62,7 +62,16 @@ export default React.createClass({
             .attr("width", function(d){ return _.max([d.dx - 1, 0]); })
             .attr("height", function(d){ return _.max([d.dy - 1, 0]); })
             .style("fill", "blue");
-        
+
+        let textUpdate = svg.selectAll("text").data(this.props.data);
+
+        textUpdate.enter()
+            .append("text")
+            .attr("x", function(d){ return d.x + 2; })
+            .attr("y", function(d){ return d.y + 20; })
+            .text(function(d) { return d.name; });
+
+
         // .style("width", function(d) { return d * 10 + "px"; })
         //     .style("background-color", "lightgrey")
         //     .text(function (d) {

@@ -19,16 +19,22 @@ def main():
     json_file = os.path.join(os.path.dirname(__file__), '../data/data.json')
 
     #scan_file_sizes(from_path, stat_file)
-    dir2size = calc_dir_sizes(filestat_file, dirstat_file)
+    #calc_dir_sizes(filestat_file, dirstat_file)
 
-    root = SizeNode.build_tree(dir2size.iteritems())
+    lines = FileUtil.read_all(dirstat_file).splitlines()
+    iter_dir_sizes = FileUtil.parse_path_sizes(lines)
+
+    root = SizeNode.build_tree(iter_dir_sizes)
 
     node = root.find_node(os.path.join(from_path, "Downloads"))
 
     #nodes = sorted([c for c in node.name2childs.values()], key=lambda n: n.size, reverse=True)
     nodes = node.name2childs.values()
+    min_size = node.size * 0.001
+    #print "min_size", min_size
+
     #nodes = SquareTreeMap.norm_node_sizes(nodes)
-    rects = SquareTreeMap.squarify_size_nodes(nodes, 0., 0., 700., 400.)
+    rects = SquareTreeMap.squarify_size_nodes(node.name, nodes, 0., 0., 700., 400., min_size)
 
     # rects = square_node(node, 0., 0., 700., 400.)
     # print 'rects', rects
@@ -69,6 +75,7 @@ def calc_dir_sizes(filestat_file, dirstat_file):
 
     dir2size = {}
     for filepath, size in FileUtil.parse_path_sizes(lines):
+        dir2size[filepath] = size
         dirpath = os.path.dirname(filepath)
         while dirpath:
             try:
@@ -79,8 +86,6 @@ def calc_dir_sizes(filestat_file, dirstat_file):
 
     iter_lines = FileUtil.combine_path_sizes(sorted(dir2size.items()))
     FileUtil.write_all(dirstat_file, iter_lines)
-
-    return dir2size
 
 
 if __name__ == "__main__":

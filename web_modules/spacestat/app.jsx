@@ -11,7 +11,8 @@ var HelloWorld = React.createClass({
     
     getInitialState: function(){
         return {
-            data: []
+            data: [],
+            currentRect: ""
         }
     },
     
@@ -22,11 +23,20 @@ var HelloWorld = React.createClass({
               })
           }.bind(this));
     },
+
+    handleHover: function (rect){
+        this.setState({
+            currentRect: rect
+        });
+    },
     
 	render: function() {
 		return <div>
 			<h1>SpaceStat</h1>
-            <Dashboard data={this.state.data}/>
+            <Dashboard
+                data={this.state.data}
+                onhover={this.handleHover}/>
+            <label>{this.state.currentRect.path}</label>
 		</div>;
 	}
 });

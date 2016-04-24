@@ -8,7 +8,14 @@ import _ from "lodash";
 export default React.createClass({
 
     propTypes: {
-        data: React.PropTypes.array
+        data: React.PropTypes.array,
+        onhover: React.PropTypes.func
+    },
+
+    getDefaultProps: function() {
+        return {
+            onhover: function(d){ return; }
+        };
     },
 
     getInitialState: function(){
@@ -45,6 +52,10 @@ export default React.createClass({
         })
     },
 
+    handleHover: function(d){
+        this.props.onhover(d);
+    },
+
     render: function () {
         let view = ReactFauxDOM.createElement('div');
 
@@ -59,17 +70,21 @@ export default React.createClass({
             .append("rect")
             .attr("x", function(d){ return d.x; })
             .attr("y", function(d){ return d.y; })
-            .attr("width", function(d){ return _.max([d.dx - 1, 0]); })
-            .attr("height", function(d){ return _.max([d.dy - 1, 0]); })
-            .style("fill", "blue");
+            .attr("width", function(d){ return _.max([d.dx, 0]); })
+            .attr("height", function(d){ return _.max([d.dy, 0]); })
+            .style("fill", "lightgrey")
+            .style("stroke", "white").style("stroke-width", "1")
+            .on("mouseover", function(d,i) {
+                this.handleHover(d);
+            }.bind(this));
 
         let textUpdate = svg.selectAll("text").data(this.props.data);
 
-        textUpdate.enter()
-            .append("text")
-            .attr("x", function(d){ return d.x + 2; })
-            .attr("y", function(d){ return d.y + 20; })
-            .text(function(d) { return d.name; });
+        // textUpdate.enter()
+        //     .append("text")
+        //     .attr("x", function(d){ return d.x + 2; })
+        //     .attr("y", function(d){ return d.y + 20; })
+        //     .text(function(d) { return d.name; });
 
 
         // .style("width", function(d) { return d * 10 + "px"; })

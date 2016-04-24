@@ -31,6 +31,7 @@ class SizeNode:
         return node
 
     def ensure_node(self, path):
+        #print "ensure_node: %s" % path
         items = path.strip("/").split("/")
         node = self
         for it in items:

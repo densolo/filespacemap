@@ -10,7 +10,7 @@ Currently the tool is under development. More documentation will appeare as soon
 
 Screenshots
 -----------
-![spacestat](docs/imanages/spacestat.png)
+![spacestat](docs/images/spacestat.png)
 
 
 References

@@ -2,8 +2,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import jquery from "jquery";
+import filesize from "filesize";
 
-import Dashboard from "spacestat/components/dashboard.jsx";
+import SpaceMap from "spacestat/components/spacemap.jsx";
 
 
 // Create react components with jsx
@@ -17,7 +18,7 @@ var HelloWorld = React.createClass({
     },
     
     componentDidMount: function(){
-          jquery.get("../data/data.json", function(data){
+          jquery.get("../../data/data.json", function(data){
               this.setState({
                   "data": data
               })
@@ -32,11 +33,26 @@ var HelloWorld = React.createClass({
     
 	render: function() {
 		return <div>
-			<h1>SpaceStat</h1>
-            <Dashboard
+			<nav className="navbar navbar-default">
+                <div className="container-fluid">
+                    <div className="navbar-header">
+                      <a className="navbar-brand" href="#">SpaceStat</a>
+                    </div>
+                </div>
+            </nav>
+            
+            <SpaceMap
                 data={this.state.data}
                 onhover={this.handleHover}/>
-            <label>{this.state.currentRect.path}</label>
+
+            <div className="panel panel-default">
+                <div className="panel-body">
+                    {this.state.currentRect.size && (
+                        <span className="label label-primary">{filesize(this.state.currentRect.size)}</span>
+                    )}
+                    {this.state.currentRect.path}
+                </div>
+            </div>
 		</div>;
 	}
 });

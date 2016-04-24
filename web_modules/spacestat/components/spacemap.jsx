@@ -38,11 +38,7 @@ export default React.createClass({
         if (!data || data.length == 0){
             return;
         }
-
-        data.forEach(function(d){
-           console.log("x: " + d.x + ", y: " + d.y + ", dx: " + d.dx + ", dy: " + d.dy);
-        });
-
+        
         let w = _.maxBy(this.props.data, function(d){ return d.x + d.dx; });
         let h = _.maxBy(this.props.data, function(d){ return d.y + d.dy; });
 
@@ -72,8 +68,8 @@ export default React.createClass({
             .attr("y", function(d){ return d.y; })
             .attr("width", function(d){ return _.max([d.dx, 0]); })
             .attr("height", function(d){ return _.max([d.dy, 0]); })
-            .style("fill", "lightgrey")
-            .style("stroke", "white").style("stroke-width", "1")
+            //.style("fill", "lightgrey")
+            //.style("stroke", "white").style("stroke-width", "1")
             .on("mouseover", function(d,i) {
                 this.handleHover(d);
             }.bind(this));
@@ -93,6 +89,10 @@ export default React.createClass({
         //         return d
         //     });
 
-        return view.toReact();
+        return (
+            <div className="spacemap">
+                {view.toReact()}
+            </div>
+        );
     }
 });

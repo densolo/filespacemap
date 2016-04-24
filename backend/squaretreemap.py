@@ -33,6 +33,7 @@ class SquareTreeMap:
 
             rect['name'] = node.name
             rect['path'] = child_path
+            rect['size'] = int(node.size)
 
             child_rects = SquareTreeMap.squarify_size_nodes(
                 child_path, node.name2childs.values(), rect['x'], rect['y'], rect['dx'], rect['dy'], min_size)

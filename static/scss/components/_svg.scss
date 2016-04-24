@@ -1,0 +1,12 @@
+
+.spacemap {
+  rect {
+    fill: lightgrey;
+    stroke: white;
+    stroke-width: 1px;
+  }
+
+  rect:hover {
+    fill: $brand-primary;
+  }
+}

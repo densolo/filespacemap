@@ -1,7 +1,9 @@
 var gulp = require("gulp");
 var gutil = require("gulp-util");
 var webpack = require("webpack");
+var sass = require('gulp-sass');
 var WebpackDevServer = require("webpack-dev-server");
+
 var webpackConfig = require("./webpack.config.js");
 
 // The development server (the recommended option for development)
@@ -40,6 +42,21 @@ gulp.task("webpack:build", function(callback) {
 		}));
 		callback();
 	});
+});
+
+gulp.task('sass', ['copy-fonts'], function () {
+  return gulp.src('./static/scss/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./static/css'));
+});
+
+gulp.task('copy-fonts', function(){
+	return gulp.src('./node_modules/bootstrap-sass/assets/fonts/bootstrap/*.*')
+    	.pipe(gulp.dest('./static/fonts/bootstrap'));
+});
+
+gulp.task('sass:watch', function () {
+  gulp.watch('./static/scss/**/*.scss', ['sass']);
 });
 
 // modify some webpack config options

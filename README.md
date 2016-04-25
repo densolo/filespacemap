@@ -1,4 +1,4 @@
-# spacestat
+# FileSpaceMap
 ===========
 
 The tool to graphically represents space occupied by directories and files on the file system.
@@ -10,7 +10,7 @@ Currently the tool is under development. More documentation will appeare as soon
 
 Screenshots
 -----------
-![spacestat](docs/imanages/spacestat.png)
+![spacestat](docs/imanages/filespacemap.png)
 
 
 References

@@ -2,6 +2,6 @@
 
 @import "../../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 
-@import "./components/_svg.scss";
-
-
+@import
+  "./components/_svg.scss",
+  "./components/_table.scss";

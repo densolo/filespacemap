@@ -4,7 +4,7 @@ var webpack = require("webpack");
 module.exports = {
 	cache: true,
 	entry: {
-		spacestat: "./web_modules/spacestat/app.jsx"
+		filespacemap: "./web_modules/filespacemap/app.jsx"
 	},
 	output: {
 		path: path.join(__dirname, "dist"),

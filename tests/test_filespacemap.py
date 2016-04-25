@@ -9,7 +9,7 @@ sys.path.append(os.path.join(test_root, "..", "backend"))
 import unittest
 
 
-class SpaceStatTests(unittest.TestCase):
+class FileSpaceMapTests(unittest.TestCase):
 
     def test_01_file_util(self):
         from fileutil import FileUtil

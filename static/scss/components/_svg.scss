@@ -8,5 +8,10 @@
 
   rect:hover {
     fill: $brand-primary;
+    stroke: $brand-primary;
+  }
+
+  rect.selected {
+    stroke: orange;
   }
 }

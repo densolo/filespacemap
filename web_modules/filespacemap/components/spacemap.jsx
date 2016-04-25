@@ -9,12 +9,15 @@ export default React.createClass({
 
     propTypes: {
         data: React.PropTypes.array,
-        onhover: React.PropTypes.func
+        selection: React.PropTypes.array,
+        onhover: React.PropTypes.func,
+        onclick: React.PropTypes.func
     },
 
     getDefaultProps: function() {
         return {
-            onhover: function(d){ return; }
+            onhover: function(d){ return; },
+            onclick: function(d){ return; }
         };
     },
 
@@ -48,8 +51,12 @@ export default React.createClass({
         })
     },
 
-    handleHover: function(d){
+    _handleHover: function(d){
         this.props.onhover(d);
+    },
+
+    _handleClick: function(d){
+        this.props.onclick(d);
     },
 
     render: function () {
@@ -60,7 +67,7 @@ export default React.createClass({
             .attr("width", this.state.width)
             .attr("height", this.state.height);
 
-        let rectUpdate = svg.selectAll("rect").data(this.props.data);
+        let rectUpdate = svg.selectAll("rect:not(.selected)").data(this.props.data);
 
         rectUpdate.enter()
             .append("rect")
@@ -70,11 +77,30 @@ export default React.createClass({
             .attr("height", function(d){ return _.max([d.dy, 0]); })
             //.style("fill", "lightgrey")
             //.style("stroke", "white").style("stroke-width", "1")
-            .on("mouseover", function(d,i) {
-                this.handleHover(d);
-            }.bind(this));
+            .on("mouseover", function(d) {
+                    this._handleHover(d);
+                }.bind(this))
+            .on("click", function(d){
+                    this._handleClick(d)
+                }.bind(this));
 
-        let textUpdate = svg.selectAll("text").data(this.props.data);
+        let selectionUpdate = svg.selectAll("rect.selected").data(this.props.selection);
+
+        selectionUpdate.enter()
+            .append("rect")
+            .attr("x", function(d){ return d.x; })
+            .attr("y", function(d){ return d.y; })
+            .attr("width", function(d){ return _.max([d.dx, 0]); })
+            .attr("height", function(d){ return _.max([d.dy, 0]); })
+            .attr("class", "selected")
+            .on("mouseover", function(d) {
+                    this._handleHover(d);
+                }.bind(this))
+            .on("click", function(d){
+                    this._handleClick(d)
+                }.bind(this));
+
+        //let textUpdate = svg.selectAll("text").data(this.props.data);
 
         // textUpdate.enter()
         //     .append("text")

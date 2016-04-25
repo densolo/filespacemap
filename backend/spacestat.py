@@ -13,7 +13,8 @@ from squaretreemap import SquareTreeMap
 
 
 def main():
-    from_path = os.path.expanduser("~/")
+    from_path = os.path.expanduser(sys.argv[1])
+
     filestat_file = os.path.join(os.path.dirname(__file__), '../data/filestat.lst')
     dirstat_file = os.path.join(os.path.dirname(__file__), '../data/dirstat.lst')
     json_file = os.path.join(os.path.dirname(__file__), '../data/data.json')
@@ -26,7 +27,7 @@ def main():
 
     root = SizeNode.build_tree(iter_dir_sizes)
 
-    node = root.find_node(os.path.join(from_path, "Downloads"))
+    node = root.find_node(os.path.join(from_path))
 
     #nodes = sorted([c for c in node.name2childs.values()], key=lambda n: n.size, reverse=True)
     nodes = node.name2childs.values()

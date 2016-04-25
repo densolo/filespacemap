@@ -5823,4 +5823,15 @@ button.close {
   stroke-width: 1px; }
 
 .spacemap rect:hover {
-  fill: #337ab7; }
+  fill: #337ab7;
+  stroke: #337ab7; }
+
+.spacemap rect.selected {
+  stroke: orange; }
+
+.selected-paths {
+  overflow-x: auto; }
+  .selected-paths > table td:nth-child(1) {
+    width: 100px; }
+  .selected-paths > table td:nth-child(2) {
+    width: 250px; }

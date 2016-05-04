@@ -1,16 +1,19 @@
 var path = require("path");
 var webpack = require("webpack");
 
+
 module.exports = {
 	cache: true,
-	entry: {
-		filespacemap: "./web_modules/filespacemap/app.jsx"
-	},
+
+	entry: [
+	  'webpack-dev-server/client?http://0.0.0.0:3000',
+	  'webpack/hot/only-dev-server',
+	  './web_modules/filespacemap/app'
+	],
 	output: {
 		path: path.join(__dirname, "dist"),
-		publicPath: "dist/",
-		filename: "[name].js",
-		chunkFilename: "[chunkhash].js"
+		publicPath: "/static/",
+		filename: "bundle.js"
 	},
 	module: {
 		loaders: [
@@ -25,15 +28,17 @@ module.exports = {
 
 			// required for react jsx
 			{ test: /\.js$/,    loader: "jsx-loader" },
-			{ test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader" }
+			{ test: /\.jsx$/, exclude: /node_modules/, loaders: ["react-hot", "babel"] }
 		]
 	},
 	resolve: {
 		root: [
 			path.resolve('./web_modules')
-		]
+		],
+		extensions: [ "", ".js", ".jsx" ]
 	},
 	plugins: [
+		new webpack.HotModuleReplacementPlugin(),
 		new webpack.ProvidePlugin({
 			// Automtically detect jQuery and $ as free var in modules
 			// and inject the jquery library
